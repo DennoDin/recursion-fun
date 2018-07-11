@@ -25,10 +25,68 @@ class RobotPaths {
     this.board = new Board(size);
     this.row = 0;
     this.col = 0;
+    this.boardSize = size;
   }
 
   solve() {
-    // Your code here.
+    const result = [];
+    const path = [];
+    let numberOfResults = 0;
+
+    const recurseFx = (recurseRow, recurseCol) => {
+      if (
+        recurseRow === this.boardSize - 1 &&
+        recurseCol === this.boardSize - 1
+      ) {
+        //if you reach the end, push your path
+        result.push(path);
+        numberOfResults++;
+        path.pop();
+        return;
+      }
+      this.board.togglePiece(recurseRow, recurseCol); //toggle current place's value to mark visited
+      //SOUTH
+      if (
+        recurseRow < this.boardSize - 1 &&
+        !this.board.hasBeenVisited(recurseRow + 1, recurseCol)
+      ) {
+        //unvisited available space to the south
+        path.push("south"); //add 'south' movement to path
+        recurseFx(recurseRow + 1, recurseCol);
+      }
+      //EAST
+      if (
+        recurseCol < this.boardSize - 1 &&
+        !this.board.hasBeenVisited(recurseRow, recurseCol + 1)
+      ) {
+        //unvisited available space to the east
+        path.push("east"); //add 'east' movement to path
+        recurseFx(recurseRow, recurseCol + 1);
+      }
+      //NORTH
+      if (
+        recurseRow > 0 &&
+        !this.board.hasBeenVisited(recurseRow - 1, recurseCol)
+      ) {
+        //unvisited available space to the west
+        path.push("west");
+        recurseFx(recurseRow - 1, recurseCol);
+      }
+      //WEST
+      if (
+        recurseCol > 0 &&
+        !this.board.hasBeenVisited(recurseRow, recurseCol - 1)
+      ) {
+        //unvisited available space to the east
+        path.push("east");
+        recurseFx(recurseRow, recurseCol - 1);
+      }
+      this.board.togglePiece(recurseRow, recurseCol); //toggle current place's value to mark unvisited
+      path.pop(); //pops the path stack if you move backwards
+    };
+
+    recurseFx(this.row, this.col);
+    return numberOfResults;
   }
 }
 
