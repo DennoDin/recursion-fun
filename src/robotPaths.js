@@ -38,8 +38,12 @@ class RobotPaths {
         recurseRow === this.boardSize - 1 &&
         recurseCol === this.boardSize - 1
       ) {
-        //if you reach the end, push your path
-        result.push(path);
+        //if you reach the goal, push your path
+        const resultPushIndex = result.length;
+        result[resultPushIndex] = [];
+        for (let pathIndex = 0; pathIndex < path.length; pathIndex++) {
+          result[resultPushIndex].push(path[pathIndex]);
+        }
         numberOfResults++;
         path.pop();
         return;
