@@ -68,8 +68,8 @@ class RobotPaths {
         recurseRow > 0 &&
         !this.board.hasBeenVisited(recurseRow - 1, recurseCol)
       ) {
-        //unvisited available space to the west
-        path.push("west");
+        //unvisited available space to the north
+        path.push("north");
         recurseFx(recurseRow - 1, recurseCol);
       }
       //WEST
@@ -77,8 +77,8 @@ class RobotPaths {
         recurseCol > 0 &&
         !this.board.hasBeenVisited(recurseRow, recurseCol - 1)
       ) {
-        //unvisited available space to the east
-        path.push("east");
+        //unvisited available space to the west
+        path.push("west");
         recurseFx(recurseRow, recurseCol - 1);
       }
       this.board.togglePiece(recurseRow, recurseCol); //toggle current place's value to mark unvisited
